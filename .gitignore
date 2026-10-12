@@ -1,0 +1,26 @@
+﻿# Research data
+data/raw/
+data/processed/
+
+# Conda / Python environments
+.conda/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Research outputs and models
+models/
+outputs/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Editor files
+.vscode/
+.idea/
