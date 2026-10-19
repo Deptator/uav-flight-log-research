@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 import streamlit as st
 
-
+from components.telemetry_comparison import render_telemetry_comparison
 from src.upload_processing import analyze_uploaded_log
 from src.excel_export import build_excel_report
 from components.telemetry_visualizer import (
@@ -110,6 +110,13 @@ def render_upload_analyzer():
             render_motor_pwm_chart(raw_log_path)
         except (ValueError, OSError, KeyError) as exc:
             st.warning(f"Motor PWM graph unavailable: {exc}")
+
+        st.divider()
+
+        try:
+            render_telemetry_comparison(raw_log_path)
+        except (ValueError, OSError, KeyError) as exc:
+            st.warning(f"Multi-signal comparison unavailable: {exc}")
 
         try:
             excel_data = build_excel_report(
