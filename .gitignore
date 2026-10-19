@@ -27,3 +27,6 @@ outputs/
 # Generated Excel reports
 uav_*_report.xlsx
 uav_*_test.xlsx
+
+# Generated telemetry window test workbook
+telemetry_window_test.xlsx
