@@ -24,3 +24,6 @@ outputs/
 # Editor files
 .vscode/
 .idea/
+# Generated Excel reports
+uav_*_report.xlsx
+uav_*_test.xlsx
