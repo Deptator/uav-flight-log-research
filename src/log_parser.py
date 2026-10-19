@@ -41,24 +41,27 @@ def parse_flight_log(log_path, message_types=None):
     records = {}
 
     log = mavutil.mavlink_connection(str(log_path))
+    try:
+        while True:
+            msg = log.recv_match()
 
-    while True:
-        msg = log.recv_match()
+            if msg is None:
+                break
 
-        if msg is None:
-            break
+            msg_type = msg.get_type()
 
-        msg_type = msg.get_type()
+            if (
+                selected_types is not None
+                and msg_type not in selected_types
+            ):
+                continue
 
-        if (
-            selected_types is not None
-            and msg_type not in selected_types
-        ):
-            continue
-
-        records.setdefault(msg_type, []).append(
-            msg.to_dict()
-        )
+            records.setdefault(msg_type, []).append(
+                msg.to_dict()
+            )
+    finally:
+        # Release the BIN file handle, including when parsing raises.
+        log.close()
 
     datasets = {}
 

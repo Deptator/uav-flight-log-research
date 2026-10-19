@@ -11,6 +11,7 @@ from components.recording_inventory import render_recording_inventory
 from components.session_explorer import render_session_explorer
 from components.session_statistics import render_session_statistics
 from components.telemetry_diagnostics import render_telemetry_diagnostics
+from components.upload_analyzer import render_upload_analyzer
 
 
 st.set_page_config(
@@ -41,6 +42,14 @@ def require_csv(path: Path, label: str) -> pd.DataFrame:
 
 
 st.sidebar.title("🚁 UAV Research")
+# Handle a recording selected from Recording Inventory.
+pending_recording = st.session_state.pop(
+    "pending_session_recording", None
+)
+
+if pending_recording is not None:
+    st.session_state["session_explorer_recording"] = pending_recording
+    st.session_state["dashboard_navigation"] = "Session Explorer"
 page = st.sidebar.radio(
     "Navigation",
     [
@@ -50,6 +59,7 @@ page = st.sidebar.radio(
         "Session Explorer",
         "Anomaly Explorer",
         "Telemetry Diagnostics",
+        "Upload & Analyze",
     ],
     key="dashboard_navigation",
 )
@@ -133,6 +143,10 @@ elif page == "Anomaly Explorer":
 elif page == "Telemetry Diagnostics":
     diagnostics = require_csv(DIAGNOSTICS_PATH, "Missing-ARM telemetry inventory")
     render_telemetry_diagnostics(diagnostics)
+
+elif page == "Upload & Analyze":
+    render_upload_analyzer()
+
 
 st.divider()
 st.caption(

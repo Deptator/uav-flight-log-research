@@ -49,3 +49,27 @@ def render_recording_inventory(master_index: pd.DataFrame) -> None:
     )
     if filtered.empty:
         st.info("No recordings match those filters. Try another status or search term.")
+
+
+    # Only recordings with reconstructed sessions can open in Session Explorer.
+    eligible = filtered.loc[
+        filtered["Status"].eq("SUCCESS")
+        & pd.to_numeric(filtered["ArmedSessions"], errors="coerce").gt(0),
+        "LogFile",
+    ].dropna().astype(str).sort_values().unique().tolist()
+
+    st.markdown("#### Open Recording in Session Explorer")
+    if not eligible:
+        st.info("No successfully analyzed recordings match the current filters.")
+        return
+
+    selected_log = st.selectbox(
+        "Choose a recording to explore",
+        eligible,
+        key="inventory_recording_to_open",
+    )
+
+    if st.button("Open in Session Explorer", type="primary"):
+        # app.py consumes this request before constructing sidebar widgets.
+        st.session_state["pending_session_recording"] = selected_log
+        st.rerun()
