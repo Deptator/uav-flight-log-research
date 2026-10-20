@@ -33,3 +33,11 @@ telemetry_window_test.xlsx
 
 # Generated full telemetry test workbook
 full_telemetry_test.xlsx
+
+# PyInstaller generated files
+/build/
+/dist/
+
+# Python compilation and cache files
+__pycache__/
+*.pyc

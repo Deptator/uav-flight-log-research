@@ -1,0 +1,8 @@
+streamlit==1.66.0
+pandas
+numpy
+plotly
+openpyxl
+pymavlink
+scikit-learn
+pyinstaller
