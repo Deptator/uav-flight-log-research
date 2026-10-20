@@ -30,3 +30,6 @@ uav_*_test.xlsx
 
 # Generated telemetry window test workbook
 telemetry_window_test.xlsx
+
+# Generated full telemetry test workbook
+full_telemetry_test.xlsx
